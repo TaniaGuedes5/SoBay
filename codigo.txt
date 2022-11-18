@@ -1,0 +1,134 @@
+
+CRIACAO DOS CARGOS DOS USERS:
+
+	/*printf("\nIndique com o numero correspondente o seu cargo: \n");
+	printf("\n1 - Vendedor\n");
+	printf("\n2 - Comprador\n");
+	printf("\n3 - Vendedor e comprador\n");
+	printf("\nOpcao:");
+	scanf("%d", &functionUser);
+	switch(functionUser){
+		case 1:
+			printf("\n1 - Bem vendedor %s\n",saveUsers[contUsers].userName);
+			saveUsers[contUsers].function = 1;
+			break;
+		case 2:
+			printf("\n2 - Bem comprador %s\n",saveUsers[contUsers].userName);
+			saveUsers[contUsers].function = 2;
+			break;
+		case 3:
+			printf("\n3- Bem comprador e vendedor %s\n",saveUsers[contUsers].userName);
+			saveUsers[contUsers].function = 3;
+			break;
+	}
+	 printf("\nFuncao do user: %d\n",saveUsers[contUsers].function);*/
+----------------------------------------------------------------------------------------------------
+Pipes anonimos
+
+ pipe(sendPipe); 
+      	    pipe(receivePipe);
+
+	    res = fork();
+
+	    if (res < 0){
+		printf("[Erro] ao criar o filho \n");
+		exit(1);
+	    } 
+	    if (res == 0){
+		close(STDIN_FILENO);// | fechar stdin do filho
+		dup(sendPipe[0]);
+		close(sendPipe[0]);
+        	close(sendPipe[1]);
+		close(STDOUT_FILENO);
+		dup(receivePipe[1]);
+		close(receivePipe[0]);
+		close(sendPipe[1]);
+		exit(2);
+		
+	    }
+	    else{
+	    // pai
+	    //printf("Criei um filho...\n");
+	    close(sendPipe[0]);
+	    close(receivePipe[1]);
+	    printf("\nuser=%s\n",saveUsers[contUsers].userName);	
+	    verifyResWrite = write(sendPipe[1], saveUsers[contUsers].userName, sizeof(saveUsers[contUsers].userName)-1);
+		if(verifyResWrite == -1){
+		    fprintf(stderr, "[ERRO] na escrita!\n");
+		    exit(3);
+		}
+		printf("Escrevi %d bytes: '%s'\n", verifyResWrite, saveUsers[contUsers].userName);
+		//fazer read
+	  
+		verifyResRead = read(receivePipe[0], userName, sizeof(userName)-1);
+		if(verifyResRead == -1){
+		    fprintf(stderr, "[ERRO] na leitura!\n");
+		    exit(4);
+		}
+		userName[verifyResRead] = 0; // Serve para resolver o bug de caracteres que precedem a resposta do classificador
+		printf("Li %d bytes: '%s'\n", verifyResRead, userName);
+		printf("\nNome=%s",userName);
+		
+	    }
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ /*   pipe(sendPipe); 
+      	    pipe(receivePipe);
+
+	    res = fork();
+
+	    if (res < 0){
+		printf("[Erro] ao criar o filho \n");
+		exit(1);
+	    } 
+	    if (res == 0){
+		close(STDIN_FILENO);// | fechar stdin do filho
+		dup(sendPipe[0]);
+		close(sendPipe[0]);
+        	close(sendPipe[1]);
+		close(STDOUT_FILENO);
+		dup(receivePipe[1]);
+		close(receivePipe[0]);
+		close(sendPipe[1]);
+		execl("./promotor", "./promotor", NULL); // Executa o executável "Classificador"
+		// Caso o execl não funcione faz:
+		fprintf(stderr, "[FILHO] Nao consegui executar o CMD!\n");
+		exit(2);
+	
+	    }
+	    else{
+	    // pai
+	    //printf("Criei um filho...\n");
+	    close(sendPipe[0]);
+	    close(receivePipe[1]);
+	  
+		
+	    }*/
+///////////////////////////////////////////////
+verifiyResRead = read(receivePipe[0], promotorAnswer, sizeof(promotorAnswer)-1);
+        if(verifiyResRead == -1){
+	    fprintf(stderr, "[ERRO] na leitura!\n");
+	    exit(4);
+	}
+	promotorAnswer[verifiyResRead] = 0; // Serve para resolver o bug de caracteres que precedem a resposta do classificador
+	printf("\nResposta: %s",promotorAnswer);
+	
+        close(sendPipe[1]);
+        close(receivePipe[0]);
+////////////////////////////////////////////////////////
+
+
+
+all: 
+	gcc frontEnd.c -o frontEnd
+	gcc backEnd.c -o backEnd
+exec: 
+	./backEnd
+clean:
+	rm -rf frontEnd
+	rm -rf backEnd
+	rm -rf *.exe
+	
+	
+	
+	*/*/*/*/*/*
+	

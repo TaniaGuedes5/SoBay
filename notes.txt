@@ -1,0 +1,3 @@
+Aproveito para esclarecer uma questão frequente: "como funciona o armazenamento dos utilizadores na biblioteca e como lhe acedem?"
+-> A biblioteca não permite o acesso às suas estruturas de dados internas. A biblioteca armazena internamente os dados relativos a username, password e saldo e apenas precisam de usar as funções disponibilizadas. Por design, o armazenamento é encapsulado pela bibioteca e não se pretende que os detalhes sejam visíveis fora dela.
+-> O armazenamento de outros dados que entendam que possam precisar terá que ser feito pelos próprios alunos, desde que não repita aquilo que a biblioteca já faz.

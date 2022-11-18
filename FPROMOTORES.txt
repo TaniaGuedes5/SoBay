@@ -1,0 +1,3 @@
+->Guarda o nome dos ficheiros executáveis dos programas promotor.
+->Cada linha do ficheiro corresponde a um promotor. 
+
